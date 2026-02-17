@@ -1,6 +1,6 @@
 ﻿namespace pacman_game
 {
-    partial class Form1
+    partial class MainForm
     {
         /// <summary>
         ///  Required designer variable.

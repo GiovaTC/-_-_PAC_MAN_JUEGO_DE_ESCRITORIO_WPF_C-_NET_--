@@ -1,10 +1,35 @@
+using System;
+using System.Drawing;
+using System.Windows.Forms;
+
 namespace pacman_game
 {
-    public partial class Form1 : Form
+    public partial class MainForm : Form
     {
-        public Form1()
+        System.Windows.Forms.Timer timer;
+        GameEngine engine;
+        public MainForm()
         {
-            InitializeComponent();
+            Text = "Pacman";
+            Width = 640;
+            Height = 700;
+            DoubleBuffered = true;
+
+            engine = new GameEngine();
+            timer = new System.Windows.Forms.Timer { Interval = 120 };
+            timer.Tick += (s, e) =>
+            {
+                engine.Update();
+                Invalidate();
+            };
+            timer.Start();
+
+            KeyDown += (s, e) => engine.HandleInput(e.KeyCode);
+        }
+
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            engine.Draw(e.Graphics);
         }
     }
-}
+}   
