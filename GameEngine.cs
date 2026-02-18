@@ -64,24 +64,49 @@ namespace pacman_game
             }
         }
 
-
         public void Draw(Graphics g)
         {
+            // Fondo negro siempre
+            g.Clear(Color.Black);
+
+            if (!pacman.Alive)
+            {
+                DrawGameOver(g);
+                return;
+            }
+
+            // 🎮 Juego normal
             map.Draw(g);
             pacman.Draw(g);
 
             foreach (var ghost in ghosts)
                 ghost.Draw(g);
 
-            if (!pacman.Alive)
-            {
-                g.DrawString(
-                    "GAME OVER",
-                    new Font("Arial", 32, FontStyle.Bold),
-                    Brushes.Red,
-                    180, 300
-                );
-            }
+            DrawHUD(g);
+        }
+
+        private void DrawGameOver(Graphics g)
+        {
+            string text = "GAME OVER";
+
+            using Font font = new Font("Arial", 48, FontStyle.Bold);
+            SizeF size = g.MeasureString(text, font);
+
+            float x = (MapWidthInPixels - size.Width) / 2;
+            float y = (MapHeightInPixels - size.Height) / 2;
+
+            g.DrawString(text, font, Brushes.Red, x, y);
+        }
+
+        private void DrawHUD(Graphics g)
+        {
+            g.DrawString(
+                $"Score: {pacman.Score}",
+                new Font("Arial", 14, FontStyle.Bold),
+                Brushes.White,
+                10,
+                10
+            );
         }
     }
 }
