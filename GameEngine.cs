@@ -1,20 +1,35 @@
-﻿using System.Data;
+﻿using pacman_game.Core;
 using System.Drawing;
-using System.Linq;
 using System.Windows.Forms;
-
 
 namespace pacman_game
 {
     public class GameEngine
     {
-        Map map = new Map();
-        Pacman pacman = new Pacman();
-        Ghost[] ghosts =
+        private readonly Map map;
+        private readonly Pacman pacman;
+        private readonly Ghost[] ghosts;
+
+        public GameEngine()
         {
-            new Ghost(9, 9, Color.Red),
-            new Ghost(10, 9, Color.Pink)
-        };
+            int[,] level1 =
+            {
+                {1,1,1,1,1,1,1,1,1,1,1,1},
+                {1,2,2,2,2,2,2,2,2,2,2,1},
+                {1,2,1,1,2,1,1,2,1,1,2,1},
+                {1,2,2,2,2,2,2,2,2,2,2,1},
+                {1,1,1,1,1,1,1,1,1,1,1,1},
+            };
+
+            map = new Map(level1);
+            pacman = new Pacman(1, 1);
+
+            ghosts = new Ghost[]
+            {
+                new Ghost(9, 3, Color.Red),
+                new Ghost(10, 3, Color.Pink)
+            };
+        }
 
         public void HandleInput(Keys key)
         {
@@ -23,6 +38,8 @@ namespace pacman_game
 
         public void Update()
         {
+            if (!pacman.Alive) return;
+
             pacman.Move(map);
 
             foreach (var g in ghosts)
@@ -48,7 +65,7 @@ namespace pacman_game
             {
                 g.DrawString(
                     "GAME OVER",
-                    new Font("Arial", 32),
+                    new Font("Arial", 32, FontStyle.Bold),
                     Brushes.Red,
                     180, 300
                 );

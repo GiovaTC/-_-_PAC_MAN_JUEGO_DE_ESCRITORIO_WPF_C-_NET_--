@@ -1,4 +1,5 @@
-﻿using System;
+﻿using pacman_game.Core;
+using System;
 using System.Drawing;
 
 namespace pacman_game
