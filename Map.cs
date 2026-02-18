@@ -18,6 +18,14 @@ namespace pacman_game
 
         public bool IsWall(int x, int y)
         {
+            // Fuera del mapa = pared
+            if (x < 0 || y < 0 ||
+                y >= Grid.GetLength(0) ||
+                x >= Grid.GetLength(1))
+            {
+                return true;
+            }
+
             return Grid[y, x] == 1;
         }
 
