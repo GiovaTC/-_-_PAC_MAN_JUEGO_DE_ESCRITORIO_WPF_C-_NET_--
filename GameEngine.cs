@@ -10,6 +10,9 @@ namespace pacman_game
         private readonly Pacman pacman;
         private readonly Ghost[] ghosts;
 
+        public int MapWidthInPixels => map.Width * Map.TileSize;
+        public int MapHeightInPixels => map.Height * Map.TileSize;
+
         public GameEngine()
         {
             int[,] level1 =
