@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -8,14 +8,14 @@ namespace pacman_game
     {
         System.Windows.Forms.Timer timer;
         GameEngine engine;
+
         public MainForm()
         {
-            Text = "Pacman";
-            Width = 640;
-            Height = 700;
+            InitializeComponent();   // ⚠️ OBLIGATORIO
             DoubleBuffered = true;
 
             engine = new GameEngine();
+
             timer = new System.Windows.Forms.Timer { Interval = 120 };
             timer.Tick += (s, e) =>
             {
@@ -31,10 +31,5 @@ namespace pacman_game
         {
             engine.Draw(e.Graphics);
         }
-
-    /*    private void MainForm_Load(object sender, EventArgs e)
-        {
-
-        }*/
     }
-}   
+}

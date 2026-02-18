@@ -13,19 +13,11 @@ namespace pacman_game
             {1,0,0,0,0,0,0,0,0,0,1},
             {1,1,1,1,1,1,1,1,1,1,1}
         };
-        
+
         public int TileSize = 40;
 
         public bool IsWall(int x, int y)
         {
-            // Fuera del mapa = pared
-            if (x < 0 || y < 0 ||
-                y >= Grid.GetLength(0) ||
-                x >= Grid.GetLength(1))
-            {
-                return true;
-            }
-
             return Grid[y, x] == 1;
         }
 
@@ -49,4 +41,5 @@ namespace pacman_game
             }
         }
     }
+
 }

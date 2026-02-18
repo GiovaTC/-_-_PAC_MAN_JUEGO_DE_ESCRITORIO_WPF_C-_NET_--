@@ -41,7 +41,7 @@ namespace pacman_game
                 Y * 40,
                 40,
                 40
-             );
+            );
         }
     }
 }

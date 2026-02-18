@@ -11,16 +11,12 @@ namespace pacman_game
         public Direction Dir = Direction.Right;
         public bool Alive = true;
 
-        public Pacman()
-        {
-        }
-
         public void ChangeDirection(Keys key)
         {
-            if ( key == Keys.Left) Dir = Direction.Left;
-            if ( key == Keys.Right) Dir = Direction.Right;
-            if ( key == Keys.Up) Dir = Direction.Up;
-            if ( key == Keys.Down) Dir = Direction.Down;
+            if (key == Keys.Left) Dir = Direction.Left;
+            if (key == Keys.Right) Dir = Direction.Right;
+            if (key == Keys.Up) Dir = Direction.Up;
+            if (key == Keys.Down) Dir = Direction.Down;
         }
 
         public void Move(Map map)
@@ -42,12 +38,12 @@ namespace pacman_game
         public void Draw(Graphics g)
         {
             g.FillEllipse(
-                Brushes.Yellow, 
-                X * 40, 
-                Y * 40, 
+                Brushes.Yellow,
+                X * 40,
+                Y * 40,
                 40,
                 40
-             );
+            );
         }
     }
 }

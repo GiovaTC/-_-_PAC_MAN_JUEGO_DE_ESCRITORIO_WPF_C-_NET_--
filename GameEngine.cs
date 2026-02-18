@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 namespace pacman_game
 {
-    internal class GameEngine
+    public class GameEngine
     {
         Map map = new Map();
         Pacman pacman = new Pacman();
@@ -15,6 +15,27 @@ namespace pacman_game
             new Ghost(9, 9, Color.Red),
             new Ghost(10, 9, Color.Pink)
         };
+
+        public void HandleInput(Keys key)
+        {
+            pacman.ChangeDirection(key);
+        }
+
+        public void Update()
+        {
+            pacman.Move(map);
+
+            foreach (var g in ghosts)
+            {
+                g.Move(map);
+
+                if (g.X == pacman.X && g.Y == pacman.Y)
+                {
+                    pacman.Alive = false;
+                }
+            }
+        }
+
         public void Draw(Graphics g)
         {
             map.Draw(g);
@@ -25,34 +46,12 @@ namespace pacman_game
 
             if (!pacman.Alive)
             {
-                // Draw Game Over
                 g.DrawString(
                     "GAME OVER",
                     new Font("Arial", 32),
                     Brushes.Red,
-                    100,300
-                 );
-            }
-        }
-
-        public void HandleInput(Keys key)
-        {
-            pacman.ChangeDirection(key);
-        }
-
-        public void Update()
-        {
-            pacman.Move(map);  
-            
-            foreach (var g in ghosts)
-            {
-                g.Move(map);
-
-                if (g.X == pacman.X && g.Y == pacman.Y)
-                {
-                    // Game Over
-                    pacman.Alive = false;
-                }
+                    180, 300
+                );
             }
         }
     }
