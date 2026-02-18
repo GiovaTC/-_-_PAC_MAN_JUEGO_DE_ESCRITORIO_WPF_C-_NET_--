@@ -15,19 +15,45 @@ namespace pacman_game
             new Ghost(9, 9, Color.Red),
             new Ghost(10, 9, Color.Pink)
         };
-        internal void Draw(Graphics graphics)
+        public void Draw(Graphics g)
         {
-            throw new NotImplementedException();
+            map.Draw(g);
+            pacman.Draw(g);
+
+            foreach (var ghost in ghosts)
+                ghost.Draw(g);
+
+            if (!pacman.Alive)
+            {
+                // Draw Game Over
+                g.DrawString(
+                    "GAME OVER",
+                    new Font("Arial", 32),
+                    Brushes.Red,
+                    100,300
+                 );
+            }
         }
 
-        internal void HandleInput(Keys keyCode)
+        public void HandleInput(Keys key)
         {
-            throw new NotImplementedException();
+            pacman.ChangeDirection(key);
         }
 
-        internal void Update()
+        public void Update()
         {
-            throw new NotImplementedException();
+            pacman.Move(map);  
+            
+            foreach (var g in ghosts)
+            {
+                g.Move(map);
+
+                if (g.X == pacman.X && g.Y == pacman.Y)
+                {
+                    // Game Over
+                    pacman.Alive = false;
+                }
+            }
         }
     }
 }

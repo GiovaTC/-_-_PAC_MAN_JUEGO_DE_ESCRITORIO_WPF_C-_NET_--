@@ -31,5 +31,10 @@ namespace pacman_game
         {
             engine.Draw(e.Graphics);
         }
+
+    /*    private void MainForm_Load(object sender, EventArgs e)
+        {
+
+        }*/
     }
 }   
