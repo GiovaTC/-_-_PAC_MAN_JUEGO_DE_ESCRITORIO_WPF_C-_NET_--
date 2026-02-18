@@ -1,5 +1,4 @@
-﻿using System;
-using System.Drawing;
+﻿using System.Drawing;
 
 namespace pacman_game.Core
 {
@@ -18,6 +17,7 @@ namespace pacman_game.Core
             int cols = rawMap.GetLength(1);
 
             grid = new TileType[rows, cols];
+
             for (int y = 0; y < rows; y++)
             {
                 for (int x = 0; x < cols; x++)
@@ -27,7 +27,7 @@ namespace pacman_game.Core
             }
         }
 
-        // obtiene el tipo de celda
+        // 🔍 Obtiene el tipo de celda
         public TileType GetTile(int x, int y)
         {
             if (!IsInsideBounds(x, y))
@@ -36,7 +36,7 @@ namespace pacman_game.Core
             return grid[y, x];
         }
 
-        // cambia una celda (ej . eliminar pildora)
+        // ❌ Cambia una celda (ej. eliminar píldora)
         public void SetTile(int x, int y, TileType type)
         {
             if (IsInsideBounds(x, y))
@@ -45,7 +45,7 @@ namespace pacman_game.Core
             }
         }
 
-        // intenta consumir una pildora
+        // 🍒 Intenta consumir una píldora
         public bool TryEatPellet(int x, int y)
         {
             if (GetTile(x, y) == TileType.Pellet)
@@ -69,6 +69,7 @@ namespace pacman_game.Core
                    y >= 0 && y < Height;
         }
 
+        // 🎨 Render del mapa
         public void Draw(Graphics g)
         {
             for (int y = 0; y < Height; y++)
