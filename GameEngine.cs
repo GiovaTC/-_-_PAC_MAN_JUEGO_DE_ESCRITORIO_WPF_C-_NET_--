@@ -68,20 +68,31 @@ namespace pacman_game
         {
             g.Clear(Color.Black);
 
-            int mapWidthPx = MapWidthInPixels;
-            int mapHeightPx = MapHeightInPixels;
+            int mapWidthPx = map.Width * Map.TileSize;
+            int mapHeightPx = map.Height * Map.TileSize;
 
-            // 🧠 CENTRADO HORIZONTAL
+            int hudHeight = 40;
+
+            // 🧠 CENTRADO TOTAL
             int offsetX = (viewport.Width - mapWidthPx) / 2;
-            int offsetY = 40; // margen superior (HUD)
+            int offsetY = hudHeight + (viewport.Height - hudHeight - mapHeightPx) / 2;
 
-            // 🟦 Fondo azul a TODO el ancho
+            // 🟦 Fondo azul a TODO el viewport (menos HUD)
             g.FillRectangle(
                 Brushes.DarkBlue,
                 0,
-                offsetY,
+                hudHeight,
                 viewport.Width,
-                mapHeightPx
+                viewport.Height - hudHeight
+            );
+
+            // 🧾 HUD
+            g.DrawString(
+                $"Score: {pacman.Score}",
+                new Font("Arial", 14, FontStyle.Bold),
+                Brushes.White,
+                10,
+                10
             );
 
             if (!pacman.Alive)
@@ -99,10 +110,7 @@ namespace pacman_game
             foreach (var ghost in ghosts)
                 ghost.Draw(g);
 
-            // 🔙 Restaurar
             g.ResetTransform();
-
-            DrawHUD(g);
         }
 
         private void DrawGameOver(Graphics g, Size viewport)
