@@ -13,4 +13,11 @@ namespace pacman_game
         Up,
         Down
     }
+    // #### Nuevo `enum`
+    public enum TileType
+    {
+        Empty = 0,
+        Wall = 1,
+        Pellet = 2
+    }
 }
