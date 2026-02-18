@@ -1,21 +1,17 @@
-﻿using System.Drawing;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 
 namespace pacman_game.Core
 {
-    public class Pacman
+    public class Pacman : Sprite
     {
-        public int X { get; private set; }
-        public int Y { get; private set; }
-
-        public int Score { get; private set; }
-
         private int dx;
         private int dy;
 
+        public int Score { get; private set; }
         public bool Alive { get; set; } = true;
 
         public Pacman(int startX, int startY)
+            : base("Assets/pacman.png", Map.TileSize)
         {
             X = startX;
             Y = startY;
@@ -49,21 +45,16 @@ namespace pacman_game.Core
             {
                 X = nextX;
                 Y = nextY;
+
+                // 🍒 Comer píldora
+                if (map.TryEatPellet(X, Y))
+                {
+                    EatPellet();
+                }
             }
         }
 
-        public void Draw(Graphics g)
-        {
-            g.FillEllipse(
-                Brushes.Yellow,
-                X * Map.TileSize,
-                Y * Map.TileSize,
-                Map.TileSize,
-                Map.TileSize
-            );
-        }
-
-        public void EatPellet()
+        private void EatPellet()
         {
             Score += 10;
         }

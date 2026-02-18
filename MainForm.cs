@@ -18,21 +18,17 @@ namespace pacman_game
 
             engine = new GameEngine();
 
-            // 🧠 Ajustar tamaño del panel al mapa
-            gamePanel.Width = engine.MapWidthInPixels;
-            gamePanel.Height = engine.MapHeightInPixels;
+            // 🧠 El panel ocupa TODO el cliente
+            gamePanel.Dock = DockStyle.Fill;
+            gamePanel.BackColor = Color.Black;
+            gamePanel.Paint += gamePanel_Paint;
 
-            // 🧠 Ajustar ventana al panel
-            ClientSize = new Size(
-                gamePanel.Width,
-                gamePanel.Height + 40   // espacio HUD (score)
-            );
-
+            // 🧠 Timer del juego
             timer = new System.Windows.Forms.Timer { Interval = 120 };
             timer.Tick += (s, e) =>
             {
                 engine.Update();
-                gamePanel.Invalidate();
+                gamePanel.Invalidate(); // 🔁 fuerza repintado
             };
             timer.Start();
 
@@ -41,6 +37,7 @@ namespace pacman_game
 
         private void gamePanel_Paint(object sender, PaintEventArgs e)
         {
+            // ✅ LLAMADA CORRECTA A DRAW
             engine.Draw(e.Graphics, gamePanel.ClientSize);
         }
     }

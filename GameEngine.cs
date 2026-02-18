@@ -10,6 +10,8 @@ namespace pacman_game
         private readonly Pacman pacman;
         private readonly Ghost[] ghosts;
 
+        private const int HudHeight = 40;
+
         public int MapWidthInPixels => map.Width * Map.TileSize;
         public int MapHeightInPixels => map.Height * Map.TileSize;
 
@@ -29,8 +31,9 @@ namespace pacman_game
 
             ghosts = new Ghost[]
             {
-                new Ghost(9, 3, Color.Red),
-                new Ghost(10, 3, Color.Pink)
+                new Ghost(9, 3, "Assets/pacman.png"),
+                new Ghost(10, 3, "Assets/ghost.png"),
+                // new Ghost(8, 3, "Assets/ghost_blue.png")
             };
         }
 
@@ -43,23 +46,16 @@ namespace pacman_game
         {
             if (!pacman.Alive) return;
 
-            // 1️⃣ Mover Pac-Man
             pacman.Move(map);
 
-            // 2️⃣ Comer píldora y sumar puntos
-            if (map.TryEatPellet(pacman.X, pacman.Y))
+            foreach (var ghost in ghosts)
             {
-                pacman.EatPellet();
-            }
+                ghost.Move(map);
 
-            // 3️⃣ Mover fantasmas y detectar colisiones
-            foreach (var g in ghosts)
-            {
-                g.Move(map);
-
-                if (g.X == pacman.X && g.Y == pacman.Y)
+                if (ghost.X == pacman.X && ghost.Y == pacman.Y)
                 {
                     pacman.Alive = false;
+                    break;
                 }
             }
         }
@@ -68,32 +64,7 @@ namespace pacman_game
         {
             g.Clear(Color.Black);
 
-            int mapWidthPx = map.Width * Map.TileSize;
-            int mapHeightPx = map.Height * Map.TileSize;
-
-            int hudHeight = 40;
-
-            // 🧠 CENTRADO TOTAL
-            int offsetX = (viewport.Width - mapWidthPx) / 2;
-            int offsetY = hudHeight + (viewport.Height - hudHeight - mapHeightPx) / 2;
-
-            // 🟦 Fondo azul a TODO el viewport (menos HUD)
-            g.FillRectangle(
-                Brushes.DarkBlue,
-                0,
-                hudHeight,
-                viewport.Width,
-                viewport.Height - hudHeight
-            );
-
-            // 🧾 HUD
-            g.DrawString(
-                $"Score: {pacman.Score}",
-                new Font("Arial", 14, FontStyle.Bold),
-                Brushes.White,
-                10,
-                10
-            );
+            DrawHUD(g);
 
             if (!pacman.Alive)
             {
@@ -101,7 +72,19 @@ namespace pacman_game
                 return;
             }
 
-            // 🔄 Trasladamos el sistema de coordenadas
+            // 🧠 CENTRADO DEL MAPA
+            int offsetX = (viewport.Width - MapWidthInPixels) / 2;
+            int offsetY = HudHeight + (viewport.Height - HudHeight - MapHeightInPixels) / 2;
+
+            // 🟦 Fondo azul del área de juego
+            g.FillRectangle(
+                Brushes.DarkBlue,
+                0,
+                HudHeight,
+                viewport.Width,
+                viewport.Height - HudHeight
+            );
+
             g.TranslateTransform(offsetX, offsetY);
 
             map.Draw(g);
@@ -111,6 +94,19 @@ namespace pacman_game
                 ghost.Draw(g);
 
             g.ResetTransform();
+        }
+
+        private void DrawHUD(Graphics g)
+        {
+            using Font font = new Font("Arial", 14, FontStyle.Bold);
+
+            g.DrawString(
+                $"Score: {pacman.Score}",
+                font,
+                Brushes.White,
+                10,
+                10
+            );
         }
 
         private void DrawGameOver(Graphics g, Size viewport)
@@ -124,17 +120,6 @@ namespace pacman_game
             float y = (viewport.Height - size.Height) / 2;
 
             g.DrawString(text, font, Brushes.Red, x, y);
-        }
-
-        private void DrawHUD(Graphics g)
-        {
-            g.DrawString(
-                $"Score: {pacman.Score}",
-                new Font("Arial", 14, FontStyle.Bold),
-                Brushes.White,
-                10,
-                10
-            );
         }
     }
 }
