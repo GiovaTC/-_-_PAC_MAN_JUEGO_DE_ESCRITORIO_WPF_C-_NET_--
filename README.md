@@ -8,6 +8,8 @@ Es **100 % evaluable como proyecto académico o portafolio profesional**.
 
 <img width="1536" height="1024" alt="image" src="https://github.com/user-attachments/assets/eaeba265-710a-4cb7-9378-386e09f165dd" />    
 
+<img width="1062" height="833" alt="image" src="https://github.com/user-attachments/assets/8858b7fb-05b7-4d6a-931c-6fd06a5aa131" />    
+
 ---
 
 ## 🧩 Tecnologías utilizadas:
