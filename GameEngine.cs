@@ -40,8 +40,16 @@ namespace pacman_game
         {
             if (!pacman.Alive) return;
 
+            // 1️⃣ Mover Pac-Man
             pacman.Move(map);
 
+            // 2️⃣ Comer píldora y sumar puntos
+            if (map.TryEatPellet(pacman.X, pacman.Y))
+            {
+                pacman.EatPellet();
+            }
+
+            // 3️⃣ Mover fantasmas y detectar colisiones
             foreach (var g in ghosts)
             {
                 g.Move(map);
@@ -52,6 +60,7 @@ namespace pacman_game
                 }
             }
         }
+
 
         public void Draw(Graphics g)
         {

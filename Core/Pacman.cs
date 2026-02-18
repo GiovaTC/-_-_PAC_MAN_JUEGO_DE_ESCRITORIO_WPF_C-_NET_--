@@ -8,6 +8,8 @@ namespace pacman_game.Core
         public int X { get; private set; }
         public int Y { get; private set; }
 
+        public int Score { get; private set; }
+
         private int dx;
         private int dy;
 
@@ -59,6 +61,11 @@ namespace pacman_game.Core
                 Map.TileSize,
                 Map.TileSize
             );
+        }
+
+        public void EatPellet()
+        {
+            Score += 10;
         }
     }
 }
