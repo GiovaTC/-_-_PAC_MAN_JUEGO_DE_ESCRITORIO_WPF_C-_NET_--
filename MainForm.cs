@@ -41,7 +41,7 @@ namespace pacman_game
 
         private void gamePanel_Paint(object sender, PaintEventArgs e)
         {
-            engine.Draw(e.Graphics);
+            engine.Draw(e.Graphics, gamePanel.ClientSize);
         }
     }
 }

@@ -64,36 +64,56 @@ namespace pacman_game
             }
         }
 
-        public void Draw(Graphics g)
+        public void Draw(Graphics g, Size viewport)
         {
-            // Fondo negro siempre
             g.Clear(Color.Black);
+
+            int mapWidthPx = MapWidthInPixels;
+            int mapHeightPx = MapHeightInPixels;
+
+            // 🧠 CENTRADO HORIZONTAL
+            int offsetX = (viewport.Width - mapWidthPx) / 2;
+            int offsetY = 40; // margen superior (HUD)
+
+            // 🟦 Fondo azul a TODO el ancho
+            g.FillRectangle(
+                Brushes.DarkBlue,
+                0,
+                offsetY,
+                viewport.Width,
+                mapHeightPx
+            );
 
             if (!pacman.Alive)
             {
-                DrawGameOver(g);
+                DrawGameOver(g, viewport);
                 return;
             }
 
-            // 🎮 Juego normal
+            // 🔄 Trasladamos el sistema de coordenadas
+            g.TranslateTransform(offsetX, offsetY);
+
             map.Draw(g);
             pacman.Draw(g);
 
             foreach (var ghost in ghosts)
                 ghost.Draw(g);
 
+            // 🔙 Restaurar
+            g.ResetTransform();
+
             DrawHUD(g);
         }
 
-        private void DrawGameOver(Graphics g)
+        private void DrawGameOver(Graphics g, Size viewport)
         {
             string text = "GAME OVER";
 
             using Font font = new Font("Arial", 48, FontStyle.Bold);
             SizeF size = g.MeasureString(text, font);
 
-            float x = (MapWidthInPixels - size.Width) / 2;
-            float y = (MapHeightInPixels - size.Height) / 2;
+            float x = (viewport.Width - size.Width) / 2;
+            float y = (viewport.Height - size.Height) / 2;
 
             g.DrawString(text, font, Brushes.Red, x, y);
         }
