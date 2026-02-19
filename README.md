@@ -1,38 +1,38 @@
-# -_-_PAC_MAN_JUEGO_DE_ESCRITORIO_WPF_C-_NET_-- :. 
-# 🟡 PAC-MAN – JUEGO DE ESCRITORIO:  
-**C# / .NET 6+ / Windows Forms**
-
-A continuación se presenta un **PAC-MAN completo en C# usando Windows Forms**, con arquitectura clara, movimiento real, fantasmas, laberinto, colisiones 
-y pantalla de *Game Over*.  
-Es **100 % evaluable como proyecto académico o portafolio profesional**.
-
-<img width="1536" height="1024" alt="image" src="https://github.com/user-attachments/assets/eaeba265-710a-4cb7-9378-386e09f165dd" />    
-
-<img width="1062" height="833" alt="image" src="https://github.com/user-attachments/assets/8858b7fb-05b7-4d6a-931c-6fd06a5aa131" />    
+Proyecto **PAC-MAN completo en C# usando Windows Forms**, con arquitectura clara, movimiento real, fantasmas, laberinto, colisiones y pantalla de **Game Over**.  
+**100 % evaluable como proyecto académico o portafolio profesional.** :. 
 
 ---
 
-🎮 PAC-MAN (.NET / WinForms)
+## 🖼️ Capturas
 
-Proyecto académico y de portafolio que implementa Pac-Man en C# / WinForms, con arquitectura orientada a clases, renderizado manual y un roadmap profesional de evolución.
+![Pac-Man Gameplay 1](https://github.com/user-attachments/assets/eaeba265-710a-4cb7-9378-386e09f165dd)    
 
-🧩 Tecnologías utilizadas
+![Pac-Man Gameplay 2](https://github.com/user-attachments/assets/8858b7fb-05b7-4d6a-931c-6fd06a5aa131)    
 
-Lenguaje: C#
+---
 
-Framework: .NET 6+ / .NET 8
+## 🎮 Descripción General
 
-UI: Windows Forms
+**PAC-MAN (.NET / WinForms)**  
+Proyecto académico y de portafolio que implementa Pac-Man en **C# / WinForms**, con arquitectura orientada a clases, renderizado manual y un **roadmap profesional de evolución**.
 
-Renderizado: System.Drawing.Graphics
+---
 
-Loop de juego: System.Windows.Forms.Timer
+## 🧩 Tecnologías Utilizadas
 
-Arquitectura: Orientada a clases (Engine + UI)
+- **Lenguaje:** C#  
+- **Framework:** .NET 6+ / .NET 8  
+- **UI:** Windows Forms  
+- **Renderizado:** `System.Drawing.Graphics`  
+- **Loop de juego:** `System.Windows.Forms.Timer`  
+- **Arquitectura:** Orientada a clases (Engine + UI)  
+- **Assets:** PNG externos (sprites)
 
-Assets: PNG externos (sprites)
+---
 
-📁 Estructura del proyecto
+## 📁 Estructura del Proyecto
+
+```text
 pacman_game/
 │
 ├── Program.cs
@@ -55,8 +55,7 @@ pacman_game/
 │
 └── README.md
 
-
-📌 Importante:
+📌 Importante (Assets)
 Los archivos .png deben tener:
 
 Build Action: Content
@@ -64,7 +63,6 @@ Build Action: Content
 Copy to Output Directory: Copy if newer
 
 1️⃣ Program.cs
-
 Punto de entrada de la aplicación WinForms.
 
 using System;
@@ -83,56 +81,39 @@ namespace pacman_game
     }
 }
 
-2️⃣ MainForm.cs (Ventana principal)
+2️⃣ MainForm.cs (Ventana Principal)
+- Responsabilidades:
+- Contiene el loop del juego
+- Maneja input de teclado
+- Delegación completa del render a GameEngine
+- engine.Draw(e.Graphics, gamePanel.ClientSize);
 
-Contiene el loop del juego
+Características clave:
+- DoubleBuffered activo
+- Panel dedicado al render
+- Repaint controlado con Invalidate()
 
-Maneja input de teclado
+3️⃣ GameEngine.cs (Cerebro del Juego)
+- Responsabilidades:
+- Control del estado del juego
+- Movimiento de entidades
+- Colisiones
+- Puntaje
 
-Delegación completa del render a GameEngine
+- Render centrado + HUD
 
-engine.Draw(e.Graphics, gamePanel.ClientSize);
+- Funcionalidades actuales:
+- Movimiento de Pac-Man
+- Consumo de píldoras
+- Suma de puntaje
+- Fantasmas
+- Colisión Pac-Man / Fantasma
 
+- Pantalla GAME OVER
 
-Características:
+- HUD (Score)
 
-DoubleBuffered activo
-
-Panel dedicado al render
-
-Repaint controlado con Invalidate()
-
-3️⃣ GameEngine.cs (Cerebro del juego)
-
-Responsabilidades:
-
-Control del estado del juego
-
-Movimiento de entidades
-
-Colisiones
-
-Puntaje
-
-Render centrado + HUD
-
-Funcionalidades actuales
-
-Movimiento de Pac-Man
-
-Consumo de píldoras
-
-Suma de puntaje
-
-Fantasmas
-
-Colisión Pac-Man / Fantasma
-
-Pantalla GAME OVER
-
-HUD (Score)
-
-Render centrado dinámico
+- Render centrado dinámico
 
 4️⃣ Enums.cs
 public enum TileType
@@ -142,24 +123,21 @@ public enum TileType
     Pellet = 2
 }
 
-5️⃣ Map.cs (Laberinto con píldoras)
-Descripción
+5️⃣ Map.cs (Laberinto con Píldoras)
+- Descripción
+- El mapa soporta:
 
-El mapa ahora soporta:
+- 🟦 Paredes
 
-🟦 Paredes
+- ⬛ Espacios vacíos
 
-⬛ Espacios vacíos
+- 🍒 Píldoras (Pellet)
 
-🍒 Píldoras (Pellet)
+* Reglas:
+- Si Pac-Man pisa una píldora → suma puntos
+- La píldora se elimina del mapa
+- Implementación clave
 
-Cuando Pac-Man se mueve:
-
-Si pisa una Pellet → suma puntos
-
-La píldora se elimina del mapa
-
-Implementación clave
 public bool TryEatPellet(int x, int y)
 {
     if (GetTile(x, y) == TileType.Pellet)
@@ -170,9 +148,8 @@ public bool TryEatPellet(int x, int y)
     return false;
 }
 
-6️⃣ Sprite.cs (Base gráfica)
-
-Clase base para entidades renderizadas con imágenes.
+6️⃣ Sprite.cs (Base Gráfica)
+- Clase base para entidades renderizadas con imágenes.
 
 public abstract class Sprite
 {
@@ -201,10 +178,8 @@ public abstract class Sprite
 }
 
 7️⃣ Pacman.cs
-
-Hereda de Sprite
-
-Maneja posición, vida y puntaje
+- Hereda de Sprite
+- Maneja posición, vida y puntaje
 
 public class Pacman : Sprite
 {
@@ -225,10 +200,8 @@ public class Pacman : Sprite
 }
 
 8️⃣ Ghost.cs
-
-Hereda de Sprite
-
-Movimiento (actualmente simple / random)
+- Hereda de Sprite
+- Movimiento simple / aleatorio (actual)
 
 public class Ghost : Sprite
 {
@@ -240,39 +213,32 @@ public class Ghost : Sprite
     }
 }
 
-🎯 Funcionalidades implementadas
-
-✔ Render gráfico con sprites
-✔ Laberinto centrado
-✔ Movimiento de Pac-Man
-✔ Píldoras y sistema de puntaje
-✔ Fantasmas
-✔ Colisiones
-✔ Game Over
-✔ HUD
-✔ Arquitectura limpia y escalable
+🎯 Funcionalidades Implementadas
+* ✔ Render gráfico con sprites
+* ✔ Laberinto centrado
+* ✔ Movimiento de Pac-Man
+* ✔ Píldoras y sistema de puntaje
+* ✔ Fantasmas
+* ✔ Colisiones
+* ✔ Game Over
+* ✔ HUD
+* ✔ Arquitectura limpia y escalable
 
 🟡 ROADMAP PROFESIONAL — PAC-MAN (.NET / WinForms)
-
 Plan de evolución orientado a proyecto académico + portafolio.
 
 🧱 FASE 1 — 🍒 Píldoras + Puntaje (COMPLETADA)
-
-✔ TileType
-✔ Map con pellets
-✔ Score
-✔ HUD
-✔ Progreso real del jugador
+* ✔ TileType
+* ✔ Map con pellets
+* ✔ Score
+* ✔ HUD
+* ✔ Progreso real del jugador
 
 🧠 FASE 2 — IA REAL DE FANTASMAS (BFS)
+- Objetivo:
+- Fantasmas persiguen a Pac-Man
+- Movimiento inteligente
 
-🎯 Objetivo:
-
-Fantasmas persiguen a Pac-Man
-
-Movimiento inteligente
-
-Nueva clase
 public class PathFinder
 {
     public static Point NextStep(
@@ -284,16 +250,12 @@ public class PathFinder
     }
 }
 
-
-✅ Ideal para entrevistas técnicas.
+* ✅ Ideal para entrevistas técnicas.
 
 🎮 FASE 3 — MENÚ INICIAL
-
-Pantalla de inicio
-
-Start / Exit
-
-Reinicio de partida
+- Pantalla de inicio
+- Start / Exit
+- Reinicio de partida
 
 public enum GameState
 {
@@ -303,12 +265,11 @@ public enum GameState
 }
 
 🔊 FASE 4 — SONIDO
+- Comer píldora
 
-Comer píldora
+- Game Over
 
-Game Over
-
-Música de fondo
+- Música de fondo
 
 public static class SoundManager
 {
@@ -317,10 +278,9 @@ public static class SoundManager
 }
 
 🗺️ FASE 5 — MAPAS GRANDES
+- Mapas desde .txt
 
-Mapas desde .txt
-
-Múltiples niveles
+- Múltiples niveles
 
 111111111111
 120000000021
@@ -329,29 +289,28 @@ Múltiples niveles
 111111111111
 
 🏆 FASE 6 — RANKING PERSISTENTE
+- Opciones de persistencia:
 
-Opciones:
+- Persistencia	Nivel
+- JSON	Académico
+- SQLite	Profesional
+- SQL Server	Empresarial
 
-Persistencia	Nivel
-JSON	Académico
-SQLite	Profesional
-SQL Server	Empresarial
 public class ScoreEntry
 {
     public string Player { get; set; }
     public int Score { get; set; }
 }
 
-🧠 Orden recomendado de implementación
+🧠 Orden Recomendado de Implementación
+- Píldoras + Puntaje
+- IA BFS Fantasmas
+- Menú Inicial
+- Sonido
+- Mapas grandes
+- Ranking persistente
 
-1️⃣ Píldoras + Puntaje
-2️⃣ IA BFS Fantasmas
-3️⃣ Menú Inicial
-4️⃣ Sonido
-5️⃣ Mapas grandes
-6️⃣ Ranking persistente
-
-📌 Estado actual del proyecto:
-✅ Base sólida
-✅ Código limpio
-✅ Nivel portafolio profesional / .
+📌 Estado Actual del Proyecto
+* ✅ Base sólida
+* ✅ Código limpio
+* ✅ Nivel portafolio profesional / .
